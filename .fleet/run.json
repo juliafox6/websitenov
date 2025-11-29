@@ -1,0 +1,10 @@
+{
+    "configurations": [
+        {
+            "name": "Open HTML in Browser",
+            "type": "command",
+            "program": "/snap/bin/firefox",
+            "args": ["$FILE$"]
+        }
+    ]
+}

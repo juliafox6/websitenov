@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang='en-EN'>
+
+  <head>
+
+    <title>Заказ #{{ order.id }} | Book-a-Book</title>
+    <meta charset='UTF-8'>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='../static/styles.css' rel='stylesheet'>
+    <link href='../static/src/icon.ico' rel='icon' type='image/x-icon'>
+
+  </head>
+
+  <body>
+
+    <div class="wrapper">
+
+      <nav>
+        <a href='../index.html' title='Главная'>Главная</a>
+        <a href='../booklist.html' title='Библиотека'>Библиотека</a>
+        <a href='../cart.html' title='Корзина'>Корзина ({{cart_count}})</a>
+        <a href='../wallet.html' title='Счёт'>Кошелёк ({{current_user.deposit}})</a>
+        <a href='../profile.html' title='Профиль'>Профиль</a>
+        <a href='../logout.html' title='Выход'>Выход</a>
+      </nav>
+
+      <main>
+
+        <div class='section'>
+          <div class='left'>
+            <h2>Заказ #{{ order.id }}</h2>
+            {% if created_date %}
+            <p><strong>Дата оформления:</strong> {{ created_date }}</p>
+            {% endif %}
+            {% if branch %}
+            <p><strong>Филиал:</strong> {{ branch.name }}</p>
+            <p><strong>Адрес филиала:</strong> {{ branch.address }}</p>
+            {% endif %}
+            {% if start_date %}
+            <p><strong>Дата начала аренды:</strong> {{ start_date }}</p>
+            {% endif %}
+            {% if end_date %}
+            <p><strong>Дата возврата:</strong> {{ end_date }}</p>
+            {% endif %}
+            <p><strong>Статус:</strong> {{ status_ru }}</p>
+            <p><strong>Общая сумма залога:</strong> {{ order.total_deposit|int }} у.е.</p>
+            <p><strong>Количество книг:</strong> {{ books|length }}</p>
+            <br>
+            <a href='../profile.html'><div class='card'>Вернуться в профиль</div></a>
+          </div>
+          <div class='line' style='text-align: left;'>
+            <br>
+            <h3>Книги в заказе</h3>
+            <ul>
+              {% for book in books %}
+              <li><a href="../book.html/{{ book.id }}"><strong>{{ book.title }}</strong> - {{ book.author }}</a>
+                <p>Жанр: {{ book.genre }} | Язык: {{ book.language }}</p>
+              </li>
+              {% endfor %}
+            </ul>
+            <br>
+            <h3>Информация о доставке</h3>
+            {% if branch %}
+            <p><strong>Филиал:</strong> {{ branch.name }}</p>
+            <p><strong>Адрес:</strong> {{ branch.address }}</p>
+            {% endif %}
+            {% if end_date %}
+            <p><strong>Ожидаемая дата возврата:</strong> {{ end_date }}</p>
+            {% endif %}
+          </div>
+        </div>
+
+      </main>
+
+    </div>
+
+    <script src='../static/scripts.js'></script>
+
+  </body>
+
+</html>
+
+

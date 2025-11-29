@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang='en-EN'>
+
+  <head>
+
+    <title>Профиль | Book-a-Book</title>
+    <meta charset='UTF-8'>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='../static/styles.css' rel='stylesheet'>
+    <link href='../static/src/icon.ico' rel='icon' type='image/x-icon'>
+
+  </head>
+
+  <body>
+
+    <div class="wrapper">
+
+      <nav>
+        <a href='index.html' title='Главная'>Главная</a>
+        <a href='booklist.html' title='Библиотека'>Библиотека</a>
+        <a href='cart.html' title='Корзина'>Корзина ({{cart_count}})</a>
+        <a href='wallet.html' title='Счёт'>Кошелёк ({{current_user.deposit}})</a>
+        <a>Профиль</a>
+        <a href='logout.html' title='Выход'>Выход</a>
+      </nav>
+
+      <main>
+
+        <div class='section light'>
+          <div class="left">
+            <h2>Личные данные</h2>
+            <p><strong>Фамилия:</strong> {{ current_user.last_name }}</p>
+            <p><strong>Имя:</strong> {{ current_user.first_name }}</p>
+            {% if current_user.patronymic %}
+            <p><strong>Отчество:</strong> {{ current_user.patronymic }}</p>
+            {% endif %}
+            <p><strong>E-mail:</strong> {{ current_user.email }}</p>
+            <p><strong>Телефон:</strong> {{ current_user.phone }}</p>
+            {% if current_user.tariff %}
+            <p><strong>Тарифный план:</strong> {{ current_user.tariff.name }}</p>
+            {% endif %}
+          </div>
+          <div class="line">
+            <br>
+            <h2>{{ current_user.first_name }} {{ current_user.last_name }}</h2>
+            <img src='../static/src/icon_plan1.png' alt='Профиль пользователя' class='boss'>
+          </div>
+        </div>
+
+        <div class='section center'>
+            <h2>Активные заказы</h2>
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+            <div class="notification">
+                {{ messages[0] }}
+            </div>
+            {% endif %}
+            {% endwith %}
+            {% if current_orders %}
+            {% for order in current_orders %}
+            <a href='order.html/{{ order.id }}' title='Заказ #{{ order.id }}'>
+              <div class='card' style="min-width: 40rem; width: auto;">
+                <h3>Заказ #{{ order.id }}</h3>
+                {% if order.branch %}
+                <p><strong>Филиал:</strong> {{ order.branch.name }}</p>
+                <p><strong>Адрес:</strong> {{ order.branch.address }}</p>
+                {% endif %}
+                {% if order.picked_up_at %}
+                <p><strong>Дата начала аренды:</strong> {{ order.picked_up_at.strftime('%d.%m.%Y') }}</p>
+                {% endif %}
+                {% if order.due_return_date %}
+                <p><strong>Дата возврата:</strong> {{ order.due_return_date.strftime('%d.%m.%Y') }}</p>
+                {% endif %}
+                {% if order.status == 'assembling' %}
+                <p><strong>Статус:</strong> В сборке</p>
+                {% elif order.status == 'delivery' %}
+                <p><strong>Статус:</strong> В доставке</p>
+                {% elif order.status == 'delivered' %}
+                <p><strong>Статус:</strong> Доставлен</p>
+                {% else %}
+                <p><strong>Статус:</strong> {{ order.status }}</p>
+                {% endif %}
+              </div>
+            </a>
+            {% endfor %}
+            {% else %}
+            <p>У вас нет активных заказов</p>
+            {% endif %}
+        </div>
+
+        <div class='section center light'>
+            <h2>История заказов</h2>
+            {% if order_history %}
+            {% for order in order_history %}
+            <a href='order.html/{{ order.id }}' title='Заказ #{{ order.id }}'>
+              <div class='card'>
+                <h3>Заказ #{{ order.id }}</h3>
+                {% if order.branch %}
+                <p><strong>Филиал:</strong> {{ order.branch.name }}</p>
+                {% endif %}
+                {% if order.picked_up_at and order.due_return_date %}
+                <p><strong>Период аренды:</strong> {{ order.picked_up_at.strftime('%d.%m.%Y') }} - {{ order.due_return_date.strftime('%d.%m.%Y') }}</p>
+                {% endif %}
+                <p><strong>Статус:</strong> Возвращен</p>
+              </div>
+            </a>
+            {% endfor %}
+            {% else %}
+            <p>История заказов пуста</p>
+            {% endif %}
+        </div>
+
+      </main>
+
+    </div>
+
+    <script src='../static/scripts.js'></script>
+
+  </body>
+
+</html>
+

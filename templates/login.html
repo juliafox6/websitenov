@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang='en-EN'>
+
+  <head>
+
+    <title>Регистрация | Book-a-Book</title>
+    <meta charset='UTF-8'>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='../static/styles.css' rel='stylesheet'>
+    <link href='../static/src/icon.ico' rel='icon' type='image/x-icon'>
+
+  </head>
+
+  <body>
+
+    <div class="wrapper">
+
+      <nav>
+        <a href='index.html' title='Главная'>Главная</a>
+        <a href='booklist.html' title='Библиотека'>Библиотека</a>
+        <a>Войти</a>
+        <a href='signup.html' title='Регистрация'>Регистрация</a>
+      </nav>
+
+      <main>
+
+        <div class='section center'>
+          <h2>Авторизация</h2>
+          {% with messages = get_flashed_messages() %}
+          {% if messages %}
+              <div class="notification">
+                  {{ messages[0] }}
+              </div>
+          {% endif %}
+          {% endwith %}
+          <form method='post'>
+            <label for='email'>E-mail адрес:</label>
+            <input id='email' type='email' name='email' required />
+            <label for='password'>Пароль:</label>
+            <input id='password' type='password' name='password' required />
+            <div class='radios'>
+              <input id='remember' type='checkbox' name='remember' />
+              <label for='remember'>Запомнить пользователя?</label>
+            </div>
+            <input type='submit' value='Войти' class='button_login'>
+          </form>
+        </div>
+
+      </main>
+
+    </div>
+
+  </body>
+
+</html>

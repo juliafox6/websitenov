@@ -1,0 +1,668 @@
+/* шрифты и сброс настроек браузера */
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Sofia+Sans:ital,wght@0,1..1000;1,1..1000&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
+@import url(normalize.css);
+
+/* адаптивность */
+
+/* для портретного планшета */
+@media only screen and (min-width: 300px) and (max-width: 899px) {
+  :root {
+    font-size: 10px;
+  }
+
+  .additional {
+    min-width: 90%;
+  }
+
+  .ad {
+    display: none;
+  }
+
+  .section {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column !important;
+    width: 90% !important;
+  }
+
+  table, th, td {
+    padding: 0.1rem 0.1rem !important;
+  }
+
+  th {
+    font-size: 8px;
+  }
+
+  .small, .member, .boss {
+    width: 90% !important;
+    height: auto !important;
+  }
+
+  .card {
+    width: 90% !important;
+    height: auto !important;
+  }
+
+  .section a {
+    min-width: 90% !important;
+  }
+
+  .section a .card {
+    display: flex;
+    flex-direction: row;
+    text-align: start;
+  }
+
+  .section div {
+    max-width: 90% !important;
+  }
+
+  .line {
+    border-left: none !important;
+    border-top: 1px solid white;
+  }
+
+  .up {
+    display: none;
+  }
+
+  .opener .content {
+    display: none;
+  }
+
+  .plan {
+    min-width: auto !important;
+  }
+}
+
+/* для portrait планшетов */
+@media only screen and (min-width: 900px) and (max-width: 1049px) {
+  :root {
+    font-size: 9px;
+  }
+
+  .ad {
+    display: none;
+  }
+
+}
+
+/* для landscape планшетов */
+@media only screen and (min-width: 1050px) and (max-width: 1099px) {
+  :root {
+    font-size: 11px;
+  }
+
+  .ad {
+    display: none;
+  }
+
+  .card {
+    padding: 0.5rem 1rem !important;
+  }
+
+  .card p {
+    margin: 0.5rem !important;
+    line-height: 1rem !important;
+  }
+
+}
+
+/* для десктоп */
+@media only screen and (min-width: 1100px) and (max-width: 1499px) {
+  :root {
+    font-size: 14px;
+  }
+
+  main {
+    min-height: 100%;
+  }
+
+  .card {
+    padding: 0.5rem !important;
+  }
+
+  .card p {
+    margin: 0.5rem !important;
+    line-height: 1.2rem !important;
+  }
+}
+
+@media only screen and (min-width: 1500px) {
+  :root {
+    font-size: 16px;
+  }
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  font-family: 'Ubuntu', sans-serif;
+}
+
+body {
+  width: 100%;
+  background: url('src/background.png');
+  background-size: cover;
+}
+
+.wrapper {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.button {
+  background-color: #cd4a4c;
+  width: 80%;
+  margin: 0.5rem auto;
+  line-height: 2rem;
+  border-radius: 1rem;
+  color: white;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.button:hover {
+  color: black;
+}
+
+/* навигация */
+nav {
+  background-color: #cd4a4c;
+  width: 100%;
+  font-weight: 300;
+  letter-spacing: 0.15rem;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  padding: 0 0 0 1rem;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
+
+nav a {
+  padding: 0.75rem 1rem;
+  font-size: 1.5rem;
+  color: white;
+  text-decoration: none;
+  text-transform: uppercase;
+  cursor: pointer;
+  background-color: #cd4a4c;
+}
+
+nav a:hover {
+  color: black;
+}
+
+/* раскрывающаяся навигация */
+.opener {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+.opener:hover .content {
+  max-height: 33rem;
+}
+
+.content {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  overflow: hidden;
+  max-height: 0;
+  -webkit-transition: 1s ease max-height;
+  -o-transition: 1s ease max-height;
+  transition: 1s ease max-height;
+  width: 12rem;
+  position: absolute;
+  z-index: 0;
+  top: 3.3rem;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.content a {
+  padding: 0.5rem 0 0.5rem 0;
+  background-color: #d87274;
+}
+
+/* подвал */
+.footer {
+  background-color: #cd4a4c;
+  width: 100%;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  padding: 0.5rem 1rem;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  margin-top: 2rem;
+}
+
+.footer a {
+  text-decoration: underline;
+  color: black;
+  padding-left: 1rem;
+}
+
+/* тело */
+main {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding: 2rem 0 0 0;
+  flex: 1 1 auto;
+}
+
+/* белый блок сверху */
+.section {
+  padding: 0.5rem 0;
+  width: 80%;
+  margin-bottom: 3rem;
+  background-color: rgba(140, 60, 14, 0.75);
+  /*-webkit-backdrop-filter: blur(10px);
+          backdrop-filter: blur(10px);*/
+  border-radius: 1rem;
+  border: 0.2rem solid rgba(0, 0, 0, 1);
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  z-index: 0;
+}
+
+.last {
+  margin-bottom: 0;
+}
+
+.section div {
+  margin: 0.5rem 0.5rem 0.5rem 0.5rem;
+  max-width: 45%;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.section h2 {
+  border-bottom: 2px solid black;
+  font-weight: bolder;
+
+}
+
+.section h3 {
+  font-weight: 600;
+}
+
+.section p {
+  font-size: 1.3rem;
+  line-height: 1.5rem;
+}
+
+.section img {
+  max-width: 80%;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
+
+/* вспомогательные классы */
+.line {
+  margin-left: 0;
+  padding-left: 1rem;
+  border-left: 2px solid black;
+  text-align: center;
+}
+
+.left {
+  text-align: right;
+}
+
+.center {
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  text-align: center;
+  max-width: 90% !important;
+}
+
+.light {
+  background-color: rgba(255, 160, 0, 0.4);
+}
+
+.outer-header {
+  background-color: #cd4a4c;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  text-transform: uppercase;
+  color: white;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
+
+.card {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: black;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: start !important;
+      -ms-flex-pack: start !important;
+          justify-content: left !important;
+  border: 2px solid rgba(0, 0, 0, 0.4);
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
+
+.card img {
+  width: 4rem;
+  height: 4rem;
+}
+
+.card p, .small p, .small h3 {
+  margin: 0.5rem 1rem;
+  line-height: 1.2rem;
+}
+
+a .card:hover {
+  background-color: rgba(255, 0, 0, 0.3)
+}
+
+.section a .card img {
+  height: auto;
+}
+
+.member {
+  min-width: 18% !important;
+  max-width: 18% !important;
+  text-align: center;
+  height: 25rem;
+}
+
+.small {
+  width: auto;
+  min-width: 8rem !important;
+}
+
+a .member {
+  min-width: 100% !important;
+}
+
+.member, .boss {
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+.boss img {
+  width: 10rem;
+  height: 10rem;
+  margin: 1rem 0.5rem;
+  border-radius: 10rem;
+}
+
+.member img {
+  width: 7rem;
+  height: 7rem;
+  margin: 1rem 0.5rem;
+}
+
+.additional {
+  border-radius: 1rem;
+  width: 29%;
+  margin: 0.5rem 0.5rem 0.5rem 0.5rem;
+}
+
+/* на все документы для элементов */
+ul, ol {
+  list-style-position: inside;
+  font-size: 1.3rem;
+  line-height: 1.5rem;
+}
+
+li a:hover {
+  background-color:rgba(255, 0, 0, 0.3);
+}
+
+h2 {
+  padding-bottom: 0.5rem;
+  margin-bottom: 0.5rem;
+  font-size: 3rem;
+  font-weight: 550;
+  font-family: "Sofia Sans", sans-serif;
+}
+
+a {
+  color: black;
+  text-decoration: none;
+}
+
+table {
+  width: 90%;
+}
+
+th {
+  padding: 0.5rem 1rem;
+  text-transform: uppercase;
+}
+
+td {
+  padding: 0.5rem 1rem;
+  text-align: center;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  font-size: 1.3rem;
+  width:17rem;
+}
+
+input {
+  min-width: 17rem;
+  font-size: 1rem;
+  padding: 0.3rem 1rem;
+  margin-bottom: 1rem;
+}
+
+textarea {
+  margin-bottom: 1rem;
+  font-size: 1rem;
+}
+
+.button_login {
+  padding: 0.3rem 1rem;
+  -webkit-backdrop-filter: blur(10px);
+  background-color: transparent;
+  backdrop-filter: blur(10px);
+  border-radius: 0.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  cursor: pointer;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+button:hover {
+  color: white;
+}
+
+.radios {
+  justify-content: center;
+  min-width: 16rem;
+  display: flex;
+  font-size: 1rem;
+  flex-direction: column;
+  margin-bottom: 1rem !important;
+}
+
+.radios input[type=radio], .radios input[type=checkbox]{
+  display: none;
+}
+
+.radios label {
+  cursor: pointer;
+  padding: 0.3rem 1rem;
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 0.5rem;
+  border: 2px solid rgba(0, 0, 0, 0.4);
+  margin-right: 0.5rem;
+}
+
+.plan {
+  min-width: 150%;
+}
+
+.radios label img {
+  max-width: 20%;
+}
+
+.radios label:hover {
+  color: white;
+}
+
+.radios input[type=radio]:checked + label, .radios input[type=checkbox]:checked + label {
+  background-color: rgba(255, 0, 0, 0.3)
+}
+
+.addits_artist, .addits_customer {
+  min-width: 17rem;
+  margin:0 !important;
+}
+
+button {
+  margin: 0.5rem 0;
+  cursor: pointer;
+}
+
+select {
+  min-width: 17rem;
+  font-size: 1rem;
+  padding: 0.3rem 1rem;
+  margin-bottom: 1rem;
+}
+
+.error {
+  color: red;
+  font-size: 1.2rem !important;
+  margin-bottom: 1rem;
+}
+
+.notification, .notification1 {
+  width: 18rem;
+  font-size: 1.2rem !important;
+  background-color: red;
+  color: white;
+  padding: 0.5rem;
+  min-width: 17rem;
+  margin: 0.5rem 0 !important;
+}
+
+
+.up_hide {
+  display: none !important;
+}
+
+/* Стили для недоступных книг */
+.unavailable {
+  opacity: 0.5;
+  filter: grayscale(70%);
+  pointer-events: auto;
+}
+
+.unavailable .card {
+  background-color: rgba(200, 200, 200, 0.3) !important;
+  border-color: rgba(150, 150, 150, 0.6) !important;
+}
+
+.unavailable img {
+  opacity: 0.6;
+  filter: grayscale(80%);
+}
+
+.unavailable-section {
+  opacity: 0.7;
+}
+
+.unavailable-img {
+  opacity: 0.6;
+  filter: grayscale(70%);
+}
+
+.availability-status {
+  font-size: 0.9rem;
+  font-weight: bold;
+  color: #d32f2f;
+  margin-top: 0.5rem;
+}
+
+.availability-status.available {
+  color: #2e7d32;
+}
+
+.unavailable-notice {
+  color: #d32f2f;
+  font-weight: bold;
+  padding: 0.5rem;
+  background-color: rgba(211, 47, 47, 0.1);
+  border-radius: 0.5rem;
+  border: 1px solid rgba(211, 47, 47, 0.3);
+}

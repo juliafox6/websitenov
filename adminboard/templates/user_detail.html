@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Пользователь: {{ user.first_name }} {{ user.last_name }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='admin.css') }}">
+</head>
+<body>
+    <div class="admin-container">
+        <header class="admin-header">
+            <h1><a href="{{ url_for('dashboard') }}">Админ-панель</a> / Пользователь</h1>
+            <a href="{{ url_for('admin_logout') }}" class="btn btn-secondary">Выйти</a>
+        </header>
+        
+        <main class="admin-main">
+            <div class="admin-section">
+                <h2>Информация о пользователе</h2>
+                <div class="user-info">
+                    <p><strong>Имя:</strong> {{ user.first_name }} {{ user.patronymic or '' }} {{ user.last_name }}</p>
+                    <p><strong>Email:</strong> {{ user.email }}</p>
+                    <p><strong>Телефон:</strong> {{ user.phone }}</p>
+                    <p><strong>Депозит:</strong> {{ "%.2f"|format(user.deposit) }} у.е.</p>
+                    <p><strong>Текущий тариф:</strong> {{ user.tariff.name if user.tariff else 'Не выбран' }}</p>
+                </div>
+            </div>
+            
+            <div class="admin-section">
+                <h2>Изменить тариф</h2>
+                <form id="changeTariffForm" class="tariff-form">
+                    <input type="hidden" name="user_id" value="{{ user.id }}">
+                    <div class="form-group">
+                        <label for="tariff_id">Выберите тариф:</label>
+                        <select id="tariff_id" name="tariff_id" required>
+                            {% for tariff in tariffs %}
+                                <option value="{{ tariff.id }}" {% if user.tariff_id == tariff.id %}selected{% endif %}>
+                                    {{ tariff.name }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Изменить тариф</button>
+                </form>
+                <div id="tariffMessage" class="message"></div>
+            </div>
+            
+            <div class="admin-section">
+                <h2>Заказы пользователя</h2>
+                <div class="orders-list">
+                    {% if orders %}
+                        {% for order in orders %}
+                            <div class="order-card">
+                                <div class="order-header">
+                                    <h3>Заказ #{{ order.id }}</h3>
+                                    <span class="order-status status-{{ order.status }}">
+                                        {% if order.status == 'assembling' %}В сборке
+                                        {% elif order.status == 'delivery' %}В доставке
+                                        {% elif order.status == 'delivered' %}Доставлен
+                                        {% elif order.status == 'returned' %}Возвращен
+                                        {% else %}{{ order.status }}{% endif %}
+                                    </span>
+                                </div>
+                                <div class="order-info">
+                                    {% if order.branch %}
+                                    <p><strong>Филиал:</strong> {{ order.branch.name }}</p>
+                                    <p><strong>Адрес филиала:</strong> {{ order.branch.address }}</p>
+                                    {% endif %}
+                                    <p><strong>Сумма депозита:</strong> {{ "%.2f"|format(order.total_deposit) }} у.е.</p>
+                                    <p><strong>Создан:</strong> {{ order.created_at.strftime('%d.%m.%Y %H:%M') if order.created_at else 'N/A' }}</p>
+                                    {% if order.due_return_date %}
+                                        <p><strong>Срок возврата:</strong> {{ order.due_return_date.strftime('%d.%m.%Y') }}</p>
+                                    {% endif %}
+                                </div>
+                                <div class="order-actions">
+                                    <form class="status-form" data-order-id="{{ order.id }}">
+                                        <select name="status" class="status-select">
+                                            <option value="assembling" {% if order.status == 'assembling' %}selected{% endif %}>В сборке</option>
+                                            <option value="delivery" {% if order.status == 'delivery' %}selected{% endif %}>В доставке</option>
+                                            <option value="delivered" {% if order.status == 'delivered' %}selected{% endif %}>Доставлен</option>
+                                            <option value="returned" {% if order.status == 'returned' %}selected{% endif %}>Возвращен</option>
+                                        </select>
+                                        <button type="submit" class="btn btn-small">Изменить статус</button>
+                                    </form>
+                                    {% if order.status == 'delivered' %}
+                                        <a href="{{ url_for('order_detail', order_id=order.id) }}" class="btn btn-primary">Оценить повреждения</a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <p>У пользователя нет заказов</p>
+                    {% endif %}
+                </div>
+                <div id="statusMessage" class="message"></div>
+            </div>
+        </main>
+    </div>
+    
+    <script src="{{ url_for('static', filename='admin.js') }}"></script>
+</body>
+</html>
+
+

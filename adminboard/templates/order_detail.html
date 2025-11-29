@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Заказ #{{ order.id }} - Оценка повреждений</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='admin.css') }}">
+</head>
+<body>
+    <div class="admin-container">
+        <header class="admin-header">
+            <h1><a href="{{ url_for('dashboard') }}">Админ-панель</a> / Заказ #{{ order.id }}</h1>
+            <a href="{{ url_for('admin_logout') }}" class="btn btn-secondary">Выйти</a>
+        </header>
+        
+        <main class="admin-main">
+            <div class="admin-section">
+                <h2>Информация о заказе</h2>
+                <div class="order-info">
+                    <p><strong>Пользователь:</strong> {{ order.user.first_name }} {{ order.user.last_name }}</p>
+                    {% if order.branch %}
+                    <p><strong>Филиал:</strong> {{ order.branch.name }}</p>
+                    <p><strong>Адрес филиала:</strong> {{ order.branch.address }}</p>
+                    {% endif %}
+                    <p><strong>Сумма депозита:</strong> {{ "%.2f"|format(order.total_deposit) }} у.е.</p>
+                    <p><strong>Статус:</strong> 
+                        {% if order.status == 'delivered' %}Доставлен
+                        {% else %}{{ order.status }}{% endif %}
+                    </p>
+                    {% if order.due_return_date %}
+                        <p><strong>Срок возврата:</strong> {{ order.due_return_date.strftime('%d.%m.%Y') }}</p>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <div class="admin-section">
+                <h2>Оценка повреждений книг</h2>
+                <form id="assessDamageForm">
+                    <input type="hidden" name="order_id" value="{{ order.id }}">
+                    <div class="damage-assessment">
+                        {% for item in order_items %}
+                            <div class="book-damage-item">
+                                <div class="book-info">
+                                    <h3>{{ item.book.title }}</h3>
+                                    <p><strong>Автор:</strong> {{ item.book.author }}</p>
+                                    <p><strong>Текущее состояние:</strong> 
+                                        {% if item.damage_ratio == '0' %}Не повреждена
+                                        {% elif item.damage_ratio == '1' %}Повреждена
+                                        {% elif item.damage_ratio == '2' %}Не подлежит восстановлению
+                                        {% else %}Не оценена{% endif %}
+                                    </p>
+                                </div>
+                                <div class="damage-select">
+                                    <label for="damage_{{ item.id }}">Оценка повреждения:</label>
+                                    <select id="damage_{{ item.id }}" name="damage_{{ item.id }}" required>
+                                        <option value="0" {% if item.damage_ratio == '0' %}selected{% endif %}>
+                                            Не повреждена (без штрафов)
+                                        </option>
+                                        <option value="1" {% if item.damage_ratio == '1' %}selected{% endif %}>
+                                            Повреждена (1/2 депозита)
+                                        </option>
+                                        <option value="2" {% if item.damage_ratio == '2' %}selected{% endif %}>
+                                            Не подлежит восстановлению (полный депозит)
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary btn-large">Закрыть заказ и вернуть депозит</button>
+                    </div>
+                </form>
+                <div id="damageMessage" class="message"></div>
+            </div>
+        </main>
+    </div>
+    
+    <script src="{{ url_for('static', filename='admin.js') }}"></script>
+</body>
+</html>
+
+

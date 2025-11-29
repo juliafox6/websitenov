@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang='en-EN'>
+
+  <head>
+
+    <title>Библиотека | Book-a-Book</title>
+    <meta charset='UTF-8'>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='../static/styles.css' rel='stylesheet'>
+    <link href='../static/src/icon.ico' rel='icon' type='image/x-icon'>
+
+  </head>
+
+  <body>
+
+    <div class="wrapper">
+
+      <nav>
+        <a href='index.html' title='Главная'>Главная</a>
+        <a>Библиотека</a>
+        {% if not current_user.is_authenticated %}
+        <a href='login.html' title='Войти'>Войти</a>
+        <a href='signup.html' title='Регистрация'>Регистрация</a>
+        {% endif %}
+        {% if current_user.is_authenticated %}
+        <a href='cart.html' title='Корзина'>Корзина ({{cart_count}})</a>
+        <a href='wallet.html' title='Счёт'>Кошелёк ({{current_user.deposit}})</a>
+        <a href='profile.html' title='Профиль'>Профиль</a>
+        <a href='logout.html' title='Выход'>Выход</a>
+        {% endif %}
+      </nav>
+
+      <main>
+
+        <div class="section light">
+          {% if books %}
+          {% for book in books %}
+          <a href='book.html/{{ book.id }}' title='{{ book.title }}' class="member {% if not book.is_available %}unavailable{% endif %}">
+            <div class="card member {% if not book.is_available %}unavailable{% endif %}">
+              {% if book.image_url %}
+              <img src='{{ book.image_url }}' alt='{{ book.title }}'>
+              {% else %}
+              <img src='../static/src/icon_plan1.png' alt='{{ book.title }}'>
+              {% endif %}
+              <h3>{{ book.title }}</h3>
+              <p>{{ book.author }}</p>
+              {% if not book.is_available %}
+              <p class="availability-status">Недоступна</p>
+              {% else %}
+              <p class="availability-status available">Доступна</p>
+              {% endif %}
+            </div>
+          </a>
+          {% endfor %}
+          {% else %}
+          <p>Книги пока не добавлены</p>
+          {% endif %}
+        </div>
+
+      </main>
+
+    </div>
+
+  </body>
+
+</html>

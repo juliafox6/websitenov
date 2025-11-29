@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang='en-EN'>
+
+  <head>
+
+    <title>Кошелёк | Book-a-Book</title>
+    <meta charset='UTF-8'>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='../static/styles.css' rel='stylesheet'>
+    <link href='../static/src/icon.ico' rel='icon' type='image/x-icon'>
+
+  </head>
+
+  <body>
+
+    <div class="wrapper">
+
+      <nav>
+        <a href='index.html' title='Главная'>Главная</a>
+        <a href='booklist.html' title='Библиотека'>Библиотека</a>
+        <a href='cart.html' title='Корзина'>Корзина ({{cart_count}})</a>
+        <a>Кошелёк</a>
+        <a href='profile.html' title='Профиль'>Профиль</a>
+        <a href='logout.html' title='Выход'>Выход</a>
+      </nav>
+
+      <main>
+
+        <div class='section light'>
+          <div class='left'>
+            <h2>Состояние счёта</h2>
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+            <div class="notification">
+                {{ messages[0] }}
+            </div>
+            {% endif %}
+            {% endwith %}
+            <p><strong>Текущий баланс:</strong> {{ current_user.deposit|int }} у.е.</p>
+            <p><strong>Заморожено в залогах:</strong> {{ blocked_amount|int }} у.е.</p>
+            <p><strong>Доступно к выводу:</strong> {{ available_balance|int }} у.е.</p>
+          </div>
+          <div class='line'>
+            <br>
+            <h3>Активные залоги</h3>
+            {% if current_orders %}
+            <ul>
+              {% for order in current_orders %}
+              <li><strong>Заказ #{{ order.id }}</strong>: {{ order.deposit|int }} у.е.
+                {% if order.end_date %}
+                <p>Возврат до {{ order.end_date }}</p>
+                {% endif %}
+              </li>
+              {% endfor %}
+            </ul>
+            {% else %}
+            <p>Нет активных залогов</p>
+            {% endif %}
+          </div>
+        </div>
+
+        <div class='section center' style="flex-direction: row;">
+          <div class='card boss'>
+            <h3>Пополнить счёт</h3>
+            <p>Введите сумму для пополнения и подтвердите операцию.</p>
+            <button type='button' class='button_login' onclick="toggleWalletForm('deposit')">Пополнить</button>
+            <form method='post' class='wallet-form up_hide' data-action='deposit'>
+              <input type='hidden' name='action' value='deposit'>
+              <input type='number' name='amount' min='1' step='1' placeholder='Сумма, у.е.' required>
+              <input type='submit' value='Подтвердить' class='button_login'>
+            </form>
+          </div>
+          <div class='card boss'>
+            <h3>Вывести средства</h3>
+            <p>Укажите сумму к выводу (не более доступного баланса).</p>
+            <button type='button' class='button_login' onclick="toggleWalletForm('withdraw')">Вывести</button>
+            <form method='post' class='wallet-form up_hide' data-action='withdraw'>
+              <input type='hidden' name='action' value='withdraw'>
+              <input type='number' name='amount' min='1' step='1' placeholder='Сумма, у.е.' required>
+              <input type='submit' value='Подтвердить' class='button_login'>
+            </form>
+          </div>
+        </div>
+
+      </main>
+
+    </div>
+
+    <script src='../static/scripts.js'></script>
+
+  </body>
+
+</html>
+

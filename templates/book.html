@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang='en-EN'>
+
+  <head>
+
+    <title>{{ book.title }} | Book-a-Book</title>
+    <meta charset='UTF-8'>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='../static/styles.css' rel='stylesheet'>
+    <link href='../static/src/icon.ico' rel='icon' type='image/x-icon'>
+
+  </head>
+
+  <body>
+
+    <div class="wrapper">
+
+      <nav>
+        <a href='../index.html' title='Главная'>Главная</a>
+        <a href='../booklist.html' title='Библиотека'>Библиотека</a>
+        {% if not current_user.is_authenticated %}
+        <a href='../login.html' title='Войти'>Войти</a>
+        <a href='../signup.html' title='Регистрация'>Регистрация</a>
+        {% endif %}
+        {% if current_user.is_authenticated %}
+        <a href='../cart.html' title='Корзина'>Корзина ({{cart_count}})</a>
+        <a href='../wallet.html' title='Счёт'>Кошелёк ({{current_user.deposit}})</a>
+        <a href='../profile.html' title='Профиль'>Профиль</a>
+        <a href='../logout.html' title='Выход'>Выход</a>
+        {% endif %}
+      </nav>
+
+      <main>
+
+        <div class='section {% if not book.is_available %}unavailable-section{% endif %}'>
+          <div class='left'>
+            <h2>{{ book.title }}</h2>
+            <p><strong>Автор:</strong> {{ book.author }}</p>
+            {% if book.publisher %}
+            <p><strong>Издательство:</strong> {{ book.publisher }}</p>
+            {% endif %}
+            <p><strong>Жанр:</strong> {{ book.genre }}</p>
+            <p><strong>Язык:</strong> {{ book.language }}</p>
+            <p><strong>Статус:</strong> 
+              {% if book.is_available %}
+              <span class="availability-status available">Доступна для аренды</span>
+              {% else %}
+              <span class="availability-status">Недоступна (в аренде)</span>
+              {% endif %}
+            </p>
+            {% if current_user.is_authenticated and current_user.tariff %}
+            <p><strong>Залог:</strong> {{ deposit|int }} у.е.</p>
+            <p><strong>Срок аренды:</strong> {{ rental_days }} дней</p>
+            <p><em>Срок аренды зависит от вашего тарифного плана</em></p>
+            <br>
+            {% if book.is_available %}
+            <form method='post'>
+              <input type='hidden' name='book_id' value='{{ book.id }}'>
+              <input type='submit' name='action' value='Добавить в корзину' class='button_login'>
+            </form>
+            {% else %}
+            <p class="unavailable-notice">Книга недоступна для аренды, так как находится в активном заказе.</p>
+            {% endif %}
+            {% else %}
+            <p>Для аренды книги необходимо <a href='login.html'>войти</a> или <a href='signup.html'>зарегистрироваться</a></p>
+            {% endif %}
+          </div>
+          <div class='line'>
+            <br>
+            {% if book.image_url %}
+            <img src='{{ book.image_url }}' alt='Обложка книги' class='boss {% if not book.is_available %}unavailable-img{% endif %}'>
+            {% else %}
+            <img src='../static/src/icon_plan1.png' alt='Обложка книги' class='boss {% if not book.is_available %}unavailable-img{% endif %}'>
+            {% endif %}
+            <br>
+            <h3>Описание</h3>
+            {% if book.description %}
+            <p>{{ book.description }}</p>
+            {% else %}
+            <p>Описание отсутствует</p>
+            {% endif %}
+            <br>
+            <a href='../booklist.html'><div class='card'>Вернуться в библиотеку</div></a>
+          </div>
+        </div>
+
+      </main>
+
+    </div>
+
+    <script src='../static/scripts.js'></script>
+
+  </body>
+
+</html>
+

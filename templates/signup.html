@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang='en-EN'>
+
+  <head>
+
+    <title>Авторизация | Book-a-Book</title>
+    <meta charset='UTF-8'>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='../static/styles.css' rel='stylesheet'>
+    <link href='../static/src/icon.ico' rel='icon' type='image/x-icon'>
+
+  </head>
+
+  <body>
+
+    <div class="wrapper">
+
+      <nav>
+        <a href='index.html' title='Главная'>Главная</a>
+        <a href='booklist.html' title='Библиотека'>Библиотека</a>
+        <a href="login.html" title='Войти'>Войти</a>
+        <a>Регистрация</a>
+      </nav>
+
+      <main>
+
+        <div class='section light'>
+          <div class="left">
+          <h2>Регистрация</h2>
+          {% with messages = get_flashed_messages() %}
+          {% if messages %}
+              <div class="notification">
+                  {{ messages[0] }}
+              </div>
+          {% endif %}
+          {% endwith %}
+          <div class='notification1 up_hide'>
+            Не все обязательные поля заполнены
+          </div>
+          <form method='post' id='personalForm'>
+            <label for='surname'>*Фамилия:</label>
+            <input id='surname' type='text' name='surname' onchange='checkFields()'/>
+            <label for='name'>*Имя:</label>
+            <input id='name' type='text' name='name' onchange='checkFields()'/>
+            <label for='patron'>*Отчество:</label>
+            <input id='patron' type='text' name='patron' onchange='checkFields()'/>
+            <label for='email'>*E-mail адрес:</label>
+            <input id='email' type='email' name='email' onchange='checkFields()'/>
+            <label for='password' class='pass1'>*Пароль:</label>
+            <input id='password' type='password' name='password' onchange='checkPassword(); checkFields()'/>
+            <label for='repeat' class='pass2'>*Повторите пароль:</label>
+            <input id='repeat' type='password' name='repeat' onchange='checkPassword(); checkFields()'/>
+            <p class='error up_hide'>Пароли не совпадают!</p>
+            <label for='phone'>*Номер телефона:</label>
+            <input id='phone' type='tel' name='phone' onchange='checkFields()'/>
+          </form>
+          </div>
+          <div class="line">
+            <form method='post' id='tariffForm'>
+            <p>*Выберите тариф:</p>
+            <div class='radios'>
+              {% if tariffs %}
+              {% for tariff in tariffs %}
+              <input id='tariff{{ tariff.id }}' type='radio' name='tariff' value='{% if tariff.id == 1 %}standard{% elif tariff.id == 2 %}pro{% elif tariff.id == 3 %}premium{% endif %}' class='tariff{{ tariff.id }}' onchange='checkFields()'/>
+              <label for='tariff{{ tariff.id }}' class="plan">
+                <img src="../static/src/icon_plan{{ tariff.id }}.png" alt="{{ tariff.name }}">
+                <h3>{{ tariff.name }}</h3>
+                <p>Единоразовая оплата: {{ tariff.cost|int }} у.е.</p>
+                <p>Дней на аренду книги: {{ tariff.rental_days }}</p>
+                <p>Сумма залога за книгу: {{ tariff.deposit_per_book|int }} у.е.</p>
+              </label>
+              {% endfor %}
+              {% endif %}
+            </div>
+            </form>
+            <input type='submit' value='Зарегистрироваться' class='button_login' onclick='checkFields(); submitAllForms()'>
+          </div>
+        </div>
+
+      </main>
+
+    </div>
+
+    <script src='../static/scripts.js'></script>
+
+  </body>
+
+</html>

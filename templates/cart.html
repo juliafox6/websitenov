@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang='en-EN'>
+
+  <head>
+
+    <title>Корзина | Book-a-Book</title>
+    <meta charset='UTF-8'>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='../static/styles.css' rel='stylesheet'>
+    <link href='../static/src/icon.ico' rel='icon' type='image/x-icon'>
+
+  </head>
+
+  <body>
+
+    <div class="wrapper">
+
+      <nav>
+        <a href='index.html' title='Главная'>Главная</a>
+        <a href='booklist.html' title='Библиотека'>Библиотека</a>
+        <a>Корзина</a>
+        <a href='wallet.html' title='Счёт'>Кошелёк ({{current_user.deposit}})</a>
+        <a href='profile.html' title='Профиль'>Профиль</a>
+        <a href='logout.html' title='Выход'>Выход</a>
+      </nav>
+
+      <main>
+
+        <div class='section center'>
+          <h2>Корзина</h2>
+          {% with messages = get_flashed_messages() %}
+          {% if messages %}
+          <div class="notification">
+              {{ messages[0] }}
+          </div>
+          {% endif %}
+          {% endwith %}
+          {% if cart_items %}
+          {% for item in cart_items %}
+          <div class='card' style='max-width: 90%;'>
+            <h3>{{ item.book.title }}</h3>
+            <p><strong>Автор:</strong> {{ item.book.author }}</p>
+            <p><strong>Жанр:</strong> {{ item.book.genre }}</p>
+            {% if current_user.tariff %}
+            <p><strong>Залог:</strong> {{ current_user.tariff.deposit_per_book|int }} у.е.</p>
+            {% endif %}
+            <form method='post' style='display: inline-block; margin-top: 10px;'>
+              <input type='hidden' name='book_id' value='{{ item.book_id }}'>
+              <input type='submit' name='action' value='Удалить' class='button_login' style='background-color: #d32f2f; min-width: auto;'>
+            </form>
+          </div>
+          {% endfor %}
+          {% else %}
+          <p>Ваша корзина пуста</p>
+          <a href='booklist.html'><div class='card small'>Перейти в библиотеку</div></a>
+          {% endif %}
+        </div>
+
+        {% if cart_items %}
+        <div class='section light'>
+          <div class='left'>
+            <h2>Итого</h2>
+            <p><strong>Количество книг:</strong> {{ cart_items|length }}</p>
+            <p><strong>Общая сумма залога:</strong> {{ total_deposit|int }} у.е.</p>
+            <p><strong>Срок аренды:</strong> {{ rental_days }} дней</p>
+            <p><em>Срок аренды зависит от вашего тарифного плана</em></p>
+          </div>
+          <div class='line'>
+            <form method='post'>
+              <label for='branch_id'><strong>Выберите филиал для доставки:</strong></label>
+              <select id='branch_id' name='branch_id' required style='min-width: 17rem; font-size: 1rem; padding: 0.3rem 1rem; margin-bottom: 1rem;'>
+                <option value=''>-- Выберите филиал --</option>
+                {% for branch in branches %}
+                <option value='{{ branch.id }}'>{{ branch.name }} - {{ branch.address }}</option>
+                {% endfor %}
+              </select>
+              <input type='submit' name='action' value='Оформить заказ' class='button_login' style='margin-top: 20px; font-size: 1.2rem; padding: 15px 30px; background-color: green;'>
+            </form>
+            <br>
+            <a href='booklist.html'><div class='card small'>Продолжить покупки</div></a>
+          </div>
+        </div>
+        {% endif %}
+        </main>
+      </div>
+      <script src='../static/scripts.js'></script>
+    </body>
+  </html>
