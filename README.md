@@ -37,7 +37,7 @@
 
 - [adminboard](#панель-администратора)
   - static
-    - [admin.css](#файл-admin.css) (CSS file)
+    - [admin.css](#файл-admin-css) (CSS file)
     - [admin.js](#файл-admin.js) (JavaScript file)
   - templates
     - [dashboard.html](#шаблон-dashboard) (HTML file)
