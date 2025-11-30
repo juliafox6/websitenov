@@ -37,7 +37,7 @@
 
 - [adminboard](#панель-администратора)
   - static
-    - [admin.css](#файл-admin-css) (CSS file)
+    - [admin.css](#файл-admin.css) (CSS file)
     - [admin.js](#файл-admin.js) (JavaScript file)
   - templates
     - [dashboard.html](#шаблон-dashboard) (HTML file)
@@ -50,7 +50,7 @@
 - [static](#папка-static)
   - [src](#папка-src) (folder, contains images used in the main site)
   - [normalize.css](#файл-normalize.css) (CSS file)
-  - [styles.css](@файл-styles.css) (CSS file)
+  - [styles.css](#файл-styles.css) (CSS file)
   - [scripts.js](#файл-scripts.js) (JavaScript file)
 - [templates](#папка-templates)
   - [index.html](#шаблон-index) (HTML file)
